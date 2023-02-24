@@ -1,0 +1,130 @@
+@extends('frontend.layouts.layout')
+@section('content')
+<section id="compact-style">
+  <div class="row">
+    <div class="col-sm-12">
+        <div class="content-header">Streaming CCTV</div>
+    </div>
+  </div>
+  <div class="row">
+
+    <!-- BEGIN : FILTER -->
+    <div class="col-12">
+      <div class="card">
+		<div class="card-header mb-2">
+			<h4 class="card-title">Pilih Lokasi CCTV</h4>
+			<p class="card-text"></p>
+		</div>
+		<div class="card-content">
+      <div class="card-body">
+      	<select class="form-control mb-2" id="titik_cctv" onchange="setValue()">
+      		<option>-- Pilih Titik CCTV --</option>
+			@if($ip != '192.168')
+				<option value="http://36.67.188.241:8180">KM 5+500</option>
+				<option value="http://36.67.188.241:8181">KM 6+100</option>
+				<!--<option value="http://36.67.188.241:8182">KM 6+200</option> -->
+				<!--<option value="http://36.67.188.241:8183">KM 6+600</option>-->
+				<!--<option value="http://36.67.188.241:8184">KM 7+200</option>-->
+				<option value="http://36.67.188.241:8185">KM 7+600</option>
+				<!--<option value="http://36.67.188.241:8186">KM 8+075</option>-->
+				<option value="http://36.67.188.241:8187">KM 8+200</option>
+				<!--<option value="http://36.67.188.241:8188">KM 8+700</option>-->
+				<!--<option value="http://36.67.188.241:8189">KM 9+200</option>-->
+				<option value="http://36.67.188.241:8190">KM 9+700</option>
+				<!--<option value="http://36.67.188.241:8191">KM 10+000</option>-->
+				<option value="http://36.67.188.241:8192">KM 10+500</option>
+				<!--<option value="http://36.67.188.241:8193">KM 11+000</option>-->
+				<!--<option value="http://36.67.188.241:8194">KM 11+500</option>-->
+				<option value="http://36.67.188.241:8195">KM 12+000</option>
+				<option value="http://36.67.188.241:8196">EXT PD.AREN</option>
+				<!--<option value="http://36.67.188.241:8197">ENT PD.AREN</option>-->
+				
+			@else
+				<option value="http://192.168.1.222:8080">KM 5+500</option>
+				<option value="http://192.168.1.222:8081">KM 6+100</option>
+				<!--<option value="http://192.168.1.222:8082">KM 6+200</option>-->
+				<!--<option value="http://192.168.1.222:8083">KM 6+600</option>-->
+				<!--<option value="http://192.168.1.222:8084">KM 7+200</option>-->
+				<option value="http://192.168.1.222:8085">KM 7+600</option>
+				<!--<option value="http://192.168.1.222:8086">KM 8+075</option>-->
+				<option value="http://192.168.1.222:8087">KM 8+200</option>
+				<!--<option value="http://192.168.1.222:8088">KM 8+700</option>-->
+				<!--<option value="http://192.168.1.222:8089">KM 9+200</option>-->
+				<option value="http://192.168.1.222:8090">KM 9+700</option>
+				<!--<option value="http://192.168.1.222:8091">KM 10+000</option>-->
+				<option value="http://192.168.1.222:8092">KM 10+500</option>
+				<!--<option value="http://192.168.1.222:8093">KM 11+000</option>-->
+				<!--<option value="http://192.168.1.222:8094">KM 11+500</option>-->
+				<option value="http://192.168.1.222:8095">KM 12+000</option>
+				<option value="http://192.168.1.222:8096">EXT PD.AREN</option>
+				<!--<option value="http://192.168.1.222:8097">ENT PD.AREN</option>-->
+				
+			@endif
+             
+              <!-- <option value="http://192.168.1.87:8083">KM 6+600</option>
+              <option value="http://192.168.1.76:8084">KM 7+200</option>
+              <option value="http://192.168.1.76:8085">KM 7+600</option>
+              <option value="http://192.168.1.76:8086">KM 8+075</option>
+              <option value="http://192.168.1.76:8087">KM 8+200</option>
+              <option value="http://192.168.1.76:8088">KM 8+700</option> -->
+              <!-- <option value="http://192.168.1.76:8089">KM 9+200</option>
+              <option value="http://192.168.1.76:8090">KM 9+700</option>
+              <option value="http://192.168.1.76:8091">KM 10+500</option>
+              <option value="http://192.168.1.76:8092">KM 11+000</option>
+              <option value="http://192.168.1.76:8093">KM 11+500</option>
+              <option value="http://192.168.1.76:8094">KM 12+000</option>
+              <option value="http://192.168.1.76:8095">ROW 40 Ramp C</option>
+              <option value="http://192.168.1.76:8096">Kolong ROW 40</option>
+              <option value="http://192.168.1.76:8097">ROW 40 Ramp A</option>
+              <option value="http://192.168.1.76:8098">KM 6+100</option>
+              <option value="http://192.168.1.76:8099">ROW 30</option>
+              <option value="http://192.168.1.76:8100">ROW 30 Bak</option>
+              <option value="http://192.168.1.76:8101">KM 10+000</option>
+              <option value="http://192.168.1.76:8102">JPO Pondok Aren</option> -->
+              <!-- @foreach($data as $d)
+              <option value="http://192.168.1.76/{{$d->port}}">{{$d->titik_cctv}}</option>
+              @endforeach -->
+      	</select>
+      	<button onclick="play_cctv()" type="button" id="play_button" class="btn btn-outline-primary">Play</button>  
+      </div>
+		</div>
+	  </div>
+    </div>
+    <!-- END : FILTER -->
+
+    <!-- BEGIN : TIME TABLE -->
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body card-dashboard">
+          	<video id="play_screen" width="100%" height="100%" controls="control playsinline>
+          		<source id="video_stream" src="" type="video/ogg; codecs=theora">
+          	</video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END : TIME TABLE -->
+
+  </div>
+</section>
+@push('scripts')
+<script type="text/javascript">
+	function setValue(){
+		// let stream = $("#titik_cctv").val();
+    let stream = document.getElementById("titik_cctv").value;
+
+		// $("#video_stream").src = stream;
+    document.getElementById("video_stream").src = stream;
+	}
+
+	function play_cctv(){
+		// let video = $("#play_screen");
+    let video = document.getElementById("play_screen");
+		// video.autoplay = true;
+		video.load();
+	}
+</script>
+@endpush
+@endsection
+

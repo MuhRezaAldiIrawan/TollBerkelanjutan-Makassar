@@ -1,0 +1,9 @@
+.test{
+    font-size: 0.8em;
+    text-align: center;
+}
+        @media only screen and (max-width: 555px){
+            .responsive-navbar{
+                width: 82%;
+            }
+        }
