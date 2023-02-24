@@ -471,14 +471,19 @@ class InfoTrafficController extends Controller
     {
         return view('frontend.pages.about-us.cctv');
     }
-    // TESTING
-    public function test()
+
+    public function Traffic()
     {
-        return view('frontend.pages.about-us.test', [
-            'title' => 'Info Traffic',
-            'test' => $this->trafficHistory('traffic'),
-        ]);
+        return view('frontend.pages.about-us.Traffic');
     }
+    // TESTING
+    // public function test()
+    // {
+    //     return view('frontend.pages.about-us.test', [
+    //         'title' => 'Info Traffic',
+    //         'test' => $this->trafficHistory('traffic'),
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.

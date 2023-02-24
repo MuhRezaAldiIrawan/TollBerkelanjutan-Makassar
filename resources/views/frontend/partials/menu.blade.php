@@ -77,6 +77,12 @@
             <span data-i18n="Dashboard">CCTV</span>
         </a>
     </li>
+    <li class="nav-item">
+        <a class=" nav-link d-flex align-items-center" href="/Traffic">
+            <i class="ft-user"></i>
+            <span data-i18n="Dashboard">Traffic</span>
+        </a>
+    </li>
 </ul>
 
 <!--     

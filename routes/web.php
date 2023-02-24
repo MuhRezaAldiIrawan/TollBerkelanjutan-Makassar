@@ -56,7 +56,7 @@ Route::get('/jtse-traffic-history', [InfoTrafficController::class, 'jtseTrafficH
 
 Route::get('/map', [InfoTrafficController::class, 'map'])->name('map')->middleware('auth')->middleware('role:aktif');
 Route::get('/cctv', [InfoTrafficController::class, 'cctv'])->name('cctv')->middleware('auth')->middleware('role:aktif');
-
+Route::get('/Traffic', [InfoTrafficController::class, 'Traffic'])->name('Traffic')->middleware('auth')->middleware('role:aktif');
 // testing 
 Route::get('/test', [InfoTrafficController::class, 'test']);
 
