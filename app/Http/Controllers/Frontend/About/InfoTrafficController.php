@@ -29,7 +29,11 @@ use App\Charts\Jtse\LaluLintasBulanan as JtseLaluLintasBulanan;
 use App\Charts\Jtse\PerbandinganGerbang as JtsePerbandinganGerbang;
 use App\Charts\Jtse\PerbandinganGolongan as JtsePerbandinganGolongan;
 use App\Charts\Jtse\LaluLintasHarianGerbang as JtseLaluLintasHarianGerbang;
+<<<<<<< HEAD
 use App\Charts\Pelanggaran\GateToll as PelanggaranGateToll;
+=======
+use App\Charts\traffic\TrafficData;
+>>>>>>> baebb3b88d487f81ceaa720e5e86996a9c61b427
 
 class InfoTrafficController extends Controller
 {
@@ -485,6 +489,7 @@ class InfoTrafficController extends Controller
         return view('frontend.pages.about-us.cctv');
     }
 
+<<<<<<< HEAD
     public function Traffic(GateToll $chart1)
     {
         return view('frontend.pages.about-us.Traffic', [
@@ -507,6 +512,12 @@ class InfoTrafficController extends Controller
         // 'chartTitle7' => 'Perbandingan Gerbang',
         // 'chart8' => $chart4->build($this->currentYear, $this->currentMonthNumber),
         // 'chartTitle8' => 'Perbandingan Gerbang',
+=======
+    public function Traffic(TrafficData $chart)
+    {
+        return view('frontend.pages.about-us.Traffic', [
+            'graph' => $chart->build(),
+>>>>>>> baebb3b88d487f81ceaa720e5e86996a9c61b427
         ]);
     }
 

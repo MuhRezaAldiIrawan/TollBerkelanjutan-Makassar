@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Charts\Mmn;
+namespace App\Charts\traffic;
 
 use Illuminate\Support\Facades\DB;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 
-class PerbandinganGerbang
+class TrafficData
 {
     protected $chart;
 
@@ -54,7 +54,7 @@ class PerbandinganGerbang
         }
     }
 
-    public function build($year, $month): \ArielMejiaDev\LarapexCharts\BarChart
+    public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
 
         return $this->chart->BarChart()
@@ -62,8 +62,9 @@ class PerbandinganGerbang
             ->setColors(['#FFC469', '#25507D',])
             ->setHeight(400)
             ->setGrid()
-            ->addData($year-1, $this->getGraphData('traffic', 'prev', $year, $month))
-            ->addData($year, $this->getGraphData('traffic', 'curr', $year, $month))
-            ->setXAxis($this->getGraphData('gate', 'curr', $year, $month));
+            ->addData("dataset 1",[230,330,184,100,239,299])
+            ->addData("dataset 2",[220,192,104,140,239,400])
+            ->setXAxis(['January', 'February', 'March', 'April', 'May', 'June'])
+            ->setMarkers(['#FF5722', '#E040FB'], 7, 10);
     }
 }
