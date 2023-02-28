@@ -80,7 +80,7 @@ class LoginController extends Controller
             if ($user->hasRole('aktif')){
                 $request->session()->regenerate();
  
-                return redirect()->intended('/mmn-harian')->with(['success'=>"Selamat Datang ".Auth::user()->name]);
+                return redirect()->intended('/cctv')->with(['success'=>"Selamat Datang ".Auth::user()->name]);
             }else{
                 
                 Auth::logout();

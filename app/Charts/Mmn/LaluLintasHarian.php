@@ -42,10 +42,13 @@ class LaluLintasHarian
                 ->where('company', $company)
                 ->whereYear('date', $year - 1)
                 ->whereMonth('date', $month)
-                ->select(DB::raw('date(date) as day'))
-                ->groupBy('date')
+                // ->select(DB::raw('date(date) as day'))
+                ->groupBy('date', 'company')
+                // ->groupBy()
                 ->get()
                 ->last();
+                // dd($date);
+                
             $countDay = date('d', strtotime($date->day));
             $a = array();
             for ($day = 1; $day <= ($countDay); $day++) {

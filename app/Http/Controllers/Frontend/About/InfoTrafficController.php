@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Frontend\About;
 
 use Excel;
 use App\Models\info_traffic;
+use App\Models\violation;
+
 
 use Illuminate\Http\Request;
 use App\Imports\TundaBayarImport;
 use App\Charts\Mmn\TrafficHistory;
+// use App\Charts\Pelanggaran;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Charts\Mmn\KomposisiGerbang;
@@ -17,6 +20,7 @@ use App\Charts\Mmn\LaluLintasBulanan;
 use App\Charts\Mmn\PerbandinganGerbang;
 use App\Charts\Mmn\PerbandinganGolongan;
 use App\Charts\Mmn\LaluLintasHarianGerbang;
+use App\Charts\Pelanggaran\GateToll;
 use App\Charts\Jtse\TrafficHistory as JtseTrafficHistory;
 use App\Charts\Jtse\KomposisiGerbang as JtseKomposisiGerbang;
 use App\Charts\Jtse\LaluLintasHarian as JtseLaluLintasHarian;
@@ -25,7 +29,7 @@ use App\Charts\Jtse\LaluLintasBulanan as JtseLaluLintasBulanan;
 use App\Charts\Jtse\PerbandinganGerbang as JtsePerbandinganGerbang;
 use App\Charts\Jtse\PerbandinganGolongan as JtsePerbandinganGolongan;
 use App\Charts\Jtse\LaluLintasHarianGerbang as JtseLaluLintasHarianGerbang;
-
+use App\Charts\Pelanggaran\GateToll as PelanggaranGateToll;
 
 class InfoTrafficController extends Controller
 {
@@ -47,20 +51,29 @@ class InfoTrafficController extends Controller
     protected $listMonth;
 
 
-    public function __construct(info_traffic $info_traffic)
+    public function __construct(info_traffic $info_traffic, violation $violation)
     {
         $this->lastDate = $info_traffic->queryLastDate();
         $this->currentYear = $info_traffic->getCurrentTime('year', $this->lastDate);
         $this->currentMonthNumber = $info_traffic->getCurrentTime('monthnumber', $this->lastDate);
         $this->currentMonthFullName = $info_traffic->getCurrentTime('monthfullname', $this->lastDate);
         $this->currentMonth = $info_traffic->getCurrentTime('month', $this->lastDate);
-
         $this->prevYear = $info_traffic->getPrevTime('year', $this->lastDate);
         $this->prevMonthNumber = $info_traffic->getPrevTime('monthnumber', $this->lastDate);
         $this->prevMonthFullName = $info_traffic->getPrevTime('monthfullname', $this->lastDate);
         $this->prevMonth = $info_traffic->getPrevTime('month', $this->lastDate);
-
         $this->listMonth = $info_traffic->listMonth($this->currentYear);
+
+        $this->lastDate = $violation->queryLastDate();
+        $this->currentYear = $violation->getCurrentTime('year', $this->lastDate);
+        $this->currentMonthNumber = $violation->getCurrentTime('monthnumber', $this->lastDate);
+        $this->currentMonthFullName = $violation->getCurrentTime('monthfullname', $this->lastDate);
+        $this->currentMonth = $violation->getCurrentTime('month', $this->lastDate);
+        $this->prevYear = $violation->getPrevTime('year', $this->lastDate);
+        $this->prevMonthNumber = $violation->getPrevTime('monthnumber', $this->lastDate);
+        $this->prevMonthFullName = $violation->getPrevTime('monthfullname', $this->lastDate);
+        $this->prevMonth = $violation->getPrevTime('month', $this->lastDate);
+        $this->listMonth = $violation->listMonth($this->currentYear);
     }
 
 
@@ -472,10 +485,32 @@ class InfoTrafficController extends Controller
         return view('frontend.pages.about-us.cctv');
     }
 
-    public function Traffic()
+    public function Traffic(GateToll $chart1)
     {
-        return view('frontend.pages.about-us.Traffic');
+        return view('frontend.pages.about-us.Traffic', [
+
+        'currentYear' => $this->currentYear,
+        'currentMonthNumber' => $this->currentMonthNumber,
+        'currentMonthFullName' => $this->currentMonthFullName,
+        'currentMonth' => $this->currentMonth,
+        'prevYear' => $this->prevYear,
+        'prevMonthNumber' => $this->prevMonthNumber,
+        'prevMonthFullName' => $this->prevMonthFullName,
+        'prevMonth' => $this->prevMonth,
+        'graph4' => $chart1->build($this->currentYear, $this->currentMonthNumber),
+        'chartTitle4' => 'Komposisi Gerbang',
+        'chart4' => $chart1,
+        // // 'graph5' => $chart2->build($this->currentYear, $this->currentMonthNumber),
+        // 'chartTitle5' => 'Komposisi Golongan',
+        // // 'chart5' => $chart2,
+        // // 'chart7' => $chart3->build($this->currentYear, $this->currentMonthNumber),
+        // 'chartTitle7' => 'Perbandingan Gerbang',
+        // 'chart8' => $chart4->build($this->currentYear, $this->currentMonthNumber),
+        // 'chartTitle8' => 'Perbandingan Gerbang',
+        ]);
     }
+
+    
     // TESTING
     // public function test()
     // {
