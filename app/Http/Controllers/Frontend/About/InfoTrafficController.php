@@ -25,7 +25,7 @@ use App\Charts\Jtse\LaluLintasBulanan as JtseLaluLintasBulanan;
 use App\Charts\Jtse\PerbandinganGerbang as JtsePerbandinganGerbang;
 use App\Charts\Jtse\PerbandinganGolongan as JtsePerbandinganGolongan;
 use App\Charts\Jtse\LaluLintasHarianGerbang as JtseLaluLintasHarianGerbang;
-
+use App\Charts\traffic\TrafficData;
 
 class InfoTrafficController extends Controller
 {
@@ -472,9 +472,11 @@ class InfoTrafficController extends Controller
         return view('frontend.pages.about-us.cctv');
     }
 
-    public function Traffic()
+    public function Traffic(TrafficData $chart)
     {
-        return view('frontend.pages.about-us.Traffic');
+        return view('frontend.pages.about-us.Traffic', [
+            'graph' => $chart->build(),
+        ]);
     }
     // TESTING
     // public function test()

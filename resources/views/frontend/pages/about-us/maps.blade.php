@@ -16,6 +16,9 @@
             font-size: 20px;
         }
     }
+    .i4ewOd-pzNkMb-haAclf {
+        background: transparent !important;
+    }
 </style>
 <br>
 <div class="container p-0">
@@ -23,15 +26,8 @@
             <center>Makassar Toll-Road Connectivity</center>
         </strong>
     </h3>
-    <div class="container align-items-center bg-white rounded shadow p-0" style="overflow: auto; white-space: nowrap; overflow-y: hidden;">
-    
-        <div class="traffic-phone1">
-            <a href="{{ asset('apexnew/app-assets/img/tol-map.png') }}" target="_blank">
-                <div class="bg-white rounded shadow p-0">
-                    <img class="img-fluid rounded" src="{{ asset('apexnew/app-assets/img/tol-map.jpg') }}">
-                </div>
-            </a>
-        </div>
+    <div class="container align-items-center bg-white rounded shadow-sm p-0" style="overflow: auto; white-space: nowrap; overflow-y: hidden;">
+        <iframe src="https://www.google.com/maps/d/embed?mid=1E4gRL_bhjlXcKrcNoJxpFBX9f_8ucyk&ehbc=2E312F" width="100%" height="500"></iframe>
     </div>
     
 </div>
