@@ -10,7 +10,7 @@
     <meta name="author" content="Traffic Toll Makassar">
     <title>MMN & JTSE Toll</title>
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -169,6 +169,7 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('apexnew/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <script src="{{asset('apexnew/app-assets/js/page-user-profile.js')}}"></script>
+    
     <script type="text/javascript">
         $(document).ready(function(){
             $('.alert').fadeTo(2000,500).slideUp(500, function(){
