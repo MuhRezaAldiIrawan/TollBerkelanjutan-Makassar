@@ -16,7 +16,6 @@ class PerbandinganGerbang
 
 
     public function getGraphData($switch, $time = 'curr', $year, $month)
-    
     {
         if ($time == 'curr') {
             $data = DB::table('info_traffics')
@@ -27,11 +26,10 @@ class PerbandinganGerbang
                 ->groupBy('gate')
                 ->get()
                 ->toArray();
-
-        } else if ($time == 'prev') {
+        } elseif ($time == 'prev') {
             $data = DB::table('info_traffics')
             ->where('company', 'MMN')
-                ->whereYear('date',$year-1)
+                ->whereYear('date', $year-1)
                 ->whereMonth('date', $month)
                 ->select(DB::raw('gate as gate, sum(traffic) as traffic'))
                 ->groupBy('gate')
@@ -54,13 +52,12 @@ class PerbandinganGerbang
         }
     }
 
-    public function build($year, $month): \ArielMejiaDev\LarapexCharts\BarChart
+    public function build($year, $month): \ArielMejiaDev\LarapexCharts\HorizontalBar
     {
-
-        return $this->chart->BarChart()
+        return $this->chart->horizontalBarChart()
             ->setFontFamily('poppins')
-            ->setColors(['#FFC469', '#25507D',])
-            ->setHeight(400)
+            ->setColors(['#FFC469', '#25507D'])
+            ->setHeight(300)
             ->setGrid()
             ->addData($year-1, $this->getGraphData('traffic', 'prev', $year, $month))
             ->addData($year, $this->getGraphData('traffic', 'curr', $year, $month))

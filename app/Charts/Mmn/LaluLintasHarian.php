@@ -19,7 +19,7 @@ class LaluLintasHarian
     // tambahkan properti untuk memberi nilai default tahun, bulan dan perusahaan
 
     // query dan perhitungan data traffic untuk disajikan ke grafik
-    protected function getGraphData($switch = 'curr', $year, $month,$company = 'MMN')
+    protected function getGraphData($switch = 'curr', $year, $month, $company = 'MMN')
     {
         if ($switch == 'curr') {
             $graph = DB::table('info_traffics')
@@ -42,13 +42,10 @@ class LaluLintasHarian
                 ->where('company', $company)
                 ->whereYear('date', $year - 1)
                 ->whereMonth('date', $month)
-                // ->select(DB::raw('date(date) as day'))
-                ->groupBy('date', 'company')
-                // ->groupBy()
+                ->select(DB::raw('date(date) as day'))
+                ->groupBy('date')
                 ->get()
                 ->last();
-                // dd($date);
-                
             $countDay = date('d', strtotime($date->day));
             $a = array();
             for ($day = 1; $day <= ($countDay); $day++) {

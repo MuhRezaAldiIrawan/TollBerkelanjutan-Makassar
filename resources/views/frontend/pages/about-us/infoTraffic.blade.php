@@ -32,7 +32,6 @@
     @elseif (request()->routeIS('mmn-traffic-history') || request()->routeIS('jtse-traffic-history'))
         <center><h3 class="title-phone"><strong>{{ $title }}</strong></h3></center>
         @include('frontend.pages.about-us.chart-section.section5')
-
     @endif
 </div>
 
