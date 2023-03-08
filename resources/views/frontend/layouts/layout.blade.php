@@ -87,28 +87,43 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script> --}}
+<style>
+    .navbar.header-navbar.navbar-horizontal.navigation-menu {
+    position: sticky;
+    width: 100%;
+    border-top: 3px solid rgb(237, 27, 36);
+    border-bottom: 2px solid rgba(225, 225, 225, 0.5);
+    top: -1px;
+    }
 
+    @media screen and (max-width: 768px){
+        .main-menu-content.center-layout.container.p-0.layout-menu {
+            overflow: hidden;
+        }
+    }
+
+</style>
 </head>
 <!-- END : Head-->
 
 <!-- BEGIN : Body-->
  
-<body onload="init_api()" class="horizontal-layout horizontal-menu-padding navbar-sticky pace-done vertical-layout vertical-overlay-menu fixed-navbar menu-hide" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+<body onload="init_api()" class="horizontal-layout horizontal-menu-padding pace-done vertical-layout vertical-overlay-menu fixed-navbar menu-hide" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
 
     @include('frontend.partials.navbar')
     <!-- Navbar (Header) Ends-->
 
 
     <!-- ////////////////////////////////////////////////////////////////////////////-->
-    <div class="wrapper">
-        <div class="m-0 p-0 header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-light navbar-shadow menu-border navbar-brand-center responsive-navbar" role="navigation" data-menu="menu-wrapper">
-            <!-- Horizontal menu content-->
-            <div class="main-menu-content center-layout container p-0" data-menu="menu-container">
-                @include('frontend.partials.menu')
-            </div>
+    <div class="m-0 p-0 header-navbar navbar-expand-sm navbar navbar-horizontal  navbar-light navbar-shadow menu-border navbar-brand-center responsive-navbar navigation-menu" role="navigation" data-menu="menu-wrapper">
+        <!-- Horizontal menu content-->
+        <div class="main-menu-content center-layout container p-0 layout-menu" data-menu="menu-container">
+            @include('frontend.partials.menu')
         </div>
+    </div>
+    <div class="wrapper">
         
-        <div class="main-panel">
+        <div class="main-panel mt-0">
             <!-- BEGIN : Main Content-->
             <div class="main-content">
                 <div class="content-overlay"></div>

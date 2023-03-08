@@ -15,7 +15,7 @@
 </style>
 
 
-<div class="bg-white rounded shadow p-4">
+<div class="bg-white rounded shadow-sm p-4">
         <h3 class="title-phone"><strong>{{ $chartTitle6 }}</strong></h3>
 
     {{-- chart --}}

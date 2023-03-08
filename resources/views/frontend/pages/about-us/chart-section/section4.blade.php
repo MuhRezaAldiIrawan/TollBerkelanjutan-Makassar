@@ -31,8 +31,8 @@
     }
 </style>
 
-    <div class="row m-0 justify-content-between">
-        <div class=" col p-4 bg-white rounded shadow ">
+    <div class="row m-0 justify-content-between" style=" grid-gap: 8px;">
+        <div class=" col p-4 bg-white rounded shadow-sm">
             <h3 class="title-phone"><strong>{{ $chartTitle4 }}</strong></h3>
             <h6>Periode {{ $currentMonthFullName }} {{ $currentYear }}</h6><br>
             {!! $graph4->container() !!} <br><br>
@@ -73,7 +73,7 @@
         </div>
 
 
-        <div class="col p-4 bg-white rounded shadow">
+        <div class="col p-4 bg-white rounded shadow-sm ">
             <h3 class="title-perbandingan"><strong>{{ $chartTitle5 }}</strong></h3>
             <h6>Periode {{ $currentMonthFullName }} {{ $currentYear }}</h6><br>
             {!! $graph5->container() !!} <br><br>

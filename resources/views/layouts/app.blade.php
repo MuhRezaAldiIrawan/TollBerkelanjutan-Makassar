@@ -51,9 +51,9 @@
 
 <!-- BEGIN : Body-->
 
-<body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns menu-collapsed nav-collapsed navbar-sticky" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+<body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns menu-collapsed nav-collapsed" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
 
-    <nav class="navbar navbar-expand-lg navbar-light header-navbar navbar-fixed">
+    <nav class="navbar navbar-expand-lg navbar-light header-navbar">
         <div class="container-fluid navbar-wrapper">
             <div class="navbar-header d-flex">
                 <div class="navbar-brand-center">

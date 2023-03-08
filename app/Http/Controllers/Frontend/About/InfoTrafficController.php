@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\About;
 
 use Excel;
 use App\Models\info_traffic;
+use App\Models\violation;
 
 use Illuminate\Http\Request;
 use App\Imports\TundaBayarImport;
@@ -25,7 +26,7 @@ use App\Charts\Jtse\LaluLintasBulanan as JtseLaluLintasBulanan;
 use App\Charts\Jtse\PerbandinganGerbang as JtsePerbandinganGerbang;
 use App\Charts\Jtse\PerbandinganGolongan as JtsePerbandinganGolongan;
 use App\Charts\Jtse\LaluLintasHarianGerbang as JtseLaluLintasHarianGerbang;
-
+use App\Charts\Pelanggaran\GateToll;
 
 class InfoTrafficController extends Controller
 {
@@ -45,9 +46,20 @@ class InfoTrafficController extends Controller
     protected $prevMonthNumber;
     protected $prevMonthFullName;
     protected $listMonth;
+    //traffic
+    protected $lastDateT;
+    protected $currentYearT;
+    protected $currentMonthT;
+    protected $currentMonthNumberT;
+    protected $currentMonthFullNameT;
+    protected $prevYearT;
+    protected $prevMonthT;
+    protected $prevMonthNumberT;
+    protected $prevMonthFullNameT;
+    protected $listMonthT;
 
 
-    public function __construct(info_traffic $info_traffic)
+    public function __construct(info_traffic $info_traffic, violation $violation)
     {
         $this->lastDate = $info_traffic->queryLastDate();
         $this->currentYear = $info_traffic->getCurrentTime('year', $this->lastDate);
@@ -61,6 +73,20 @@ class InfoTrafficController extends Controller
         $this->prevMonth = $info_traffic->getPrevTime('month', $this->lastDate);
 
         $this->listMonth = $info_traffic->listMonth($this->currentYear);
+
+        // Violation
+        $this->lastDateT = $violation->queryLastDate();
+        $this->currentYearT = $violation->getCurrentTime('year', $this->lastDateT);
+        $this->currentMonthNumberT = $violation->getCurrentTime('monthnumber', $this->lastDateT);
+        $this->currentMonthFullNameT = $violation->getCurrentTime('monthfullname', $this->lastDateT);
+        $this->currentMonthT = $violation->getCurrentTime('month', $this->lastDateT);
+
+        $this->prevYearT = $violation->getPrevTime('year', $this->lastDateT);
+        $this->prevMonthNumberT = $violation->getPrevTime('monthnumber', $this->lastDateT);
+        $this->prevMonthFullNameT = $violation->getPrevTime('monthfullname', $this->lastDateT);
+        $this->prevMonthT = $violation->getPrevTime('month', $this->lastDateT);
+
+        $this->listMonthT = $violation->listMonth($this->currentYearT);
     }
 
 
@@ -480,29 +506,31 @@ class InfoTrafficController extends Controller
         ]);
     }
 
-    public function Traffic(KomposisiGerbang $chart1, KomposisiGolongan $chart2, PerbandinganGerbang $chart3, PerbandinganGolongan $chart4)
+    public function Traffic(GateToll $chart, KomposisiGerbang $chart1, KomposisiGolongan $chart2, PerbandinganGerbang $chart3, PerbandinganGolongan $chart4)
     {
+        // @dd($this->currentMonthNumberT);
         return view('frontend.pages.about-us.Traffic', [
             // section 3
-            'title' => 'Makassar Metro Network',
-            'currentYear' => $this->currentYear,
-            'currentMonthNumber' => $this->currentMonthNumber,
-            'currentMonthFullName' => $this->currentMonthFullName,
-            'currentMonth' => $this->currentMonth,
-            'prevYear' => $this->prevYear,
-            'prevMonthNumber' => $this->prevMonthNumber,
-            'prevMonthFullName' => $this->prevMonthFullName,
-            'prevMonth' => $this->prevMonth,
-            'graph4' => $chart1->build($this->currentYear, $this->currentMonthNumber),
-            'chartTitle4' => 'Komposisi Gerbang',
-            'chart4' => $chart1,
-            'graph5' => $chart2->build($this->currentYear, $this->currentMonthNumber),
-            'chartTitle5' => 'Komposisi Golongan',
-            'chart5' => $chart2,
-            'chart7' => $chart3->build($this->currentYear, $this->currentMonthNumber),
-            'chartTitle7' => 'Perbandingan Gerbang',
-            'chart8' => $chart4->build($this->currentYear, $this->currentMonthNumber),
-            'chartTitle8' => 'Perbandingan Gerbang',
+            'title' => 'On Ramp Boulevart',
+            "currentDate" => $this->lastDateT->date,
+            'currentYear' => $this->currentYearT,
+            'currentMonthNumber' => $this->currentMonthNumberT,
+            'currentMonthFullName' => $this->currentMonthFullNameT,
+            'currentMonth' => $this->currentMonthT,
+            'prevYear' => $this->prevYearT,
+            'prevMonthNumber' => $this->prevMonthNumberT,
+            'prevMonthFullName' => $this->prevMonthFullNameT,
+            'prevMonth' => $this->prevMonthT,
+            'graph' => $chart->build($this->currentYearT, $this->currentMonthNumberT),
+            // 'chartTitle4' => 'Komposisi Gerbang',
+            'chart' => $chart,
+            // 'graph5' => $chart2->build($this->currentYear, $this->currentMonthNumber),
+            // 'chartTitle5' => 'Komposisi Golongan',
+            // 'chart5' => $chart2,
+            // 'chart7' => $chart3->build($this->currentYear, $this->currentMonthNumber),
+            // 'chartTitle7' => 'Perbandingan Gerbang',
+            // 'chart8' => $chart4->build($this->currentYear, $this->currentMonthNumber),
+            // 'chartTitle8' => 'Perbandingan Gerbang',
         ]);
     }
 
