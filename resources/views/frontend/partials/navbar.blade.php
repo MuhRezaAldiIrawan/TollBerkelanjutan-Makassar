@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light header-navbar navbar-fixed">
+<nav class="navbar navbar-expand-lg navbar-light header-navbar ">
   <div class="container-fluid navbar-wrapper">
       <div class="navbar-header d-flex">
           <div class="navbar-toggle menu-toggle d-xl-none d-block float-left align-items-center justify-content-center" data-toggle="collapse">

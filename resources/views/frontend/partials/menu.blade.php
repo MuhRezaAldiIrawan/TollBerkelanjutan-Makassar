@@ -1,4 +1,4 @@
-<ul class="navigation-main d-inline nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
+<ul class="navigation-main d-inline nav navbar-nav" style="z-index:9999; display: relative" id="main-menu-navigation" data-menu="menu-navigation">
     <li class="dropdown nav-item" data-menu="dropdown">
         <a class="dropdown-toggle nav-link d-flex align-items-center" href="javascript:;" data-toggle="dropdown">
             <i class="ft-bar-chart-2"></i>

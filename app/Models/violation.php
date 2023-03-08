@@ -16,16 +16,17 @@ class violation extends Model
 
     public static function queryLastDate()
     {
-        return DB::table('grb_kalukubadoa')
+        $date = DB::table('table_counting')
         ->select(DB::raw('date(date) as date'))
         ->groupBy('date')
         ->get('date')
         ->last();
+        return $date;
     }
 
     public static function listMonth($year)
     {
-        return DB::table('grb_kalukubadoa')
+        return DB::table('table_counting')
             ->select(DB::raw('MONTH(`date`) as bulan, MONTHNAME(`date`) as nama_bulan'))
             ->whereYear('date', $year)
             ->groupBy('bulan', 'nama_bulan')
@@ -66,7 +67,7 @@ class violation extends Model
 
     public static function gateLastDate($year, $month, )
     {
-        return DB::table('grb_kalukubadoa')
+        return DB::table('table_counting')
             // ->where('company', $company)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
@@ -79,7 +80,7 @@ class violation extends Model
 
     public static function lastDate($year, $month, $company = 'MMN')
     {
-        return DB::table('grb_kalukubadoa')
+        return DB::table('table_counting')
         // ->where('company', $company)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)

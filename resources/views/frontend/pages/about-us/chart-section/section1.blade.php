@@ -104,7 +104,7 @@
     }
 </style>
 
-<div class="bg-white rounded shadow p-4">
+<div class="bg-white rounded shadow-sm p-4">
     {{-- header --}}
     <h3 class="title-phone"><strong>{{ $chartTitle }}</strong></h3>
     <h6 id="subtitle">Periode {{ $currentMonthFullName }} {{ $currentYear }}</h6><br>
