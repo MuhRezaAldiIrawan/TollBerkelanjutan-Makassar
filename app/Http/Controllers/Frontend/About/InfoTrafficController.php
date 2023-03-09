@@ -47,16 +47,17 @@ class InfoTrafficController extends Controller
     protected $prevMonthFullName;
     protected $listMonth;
     //traffic
-    protected $lastDateT;
-    protected $currentYearT;
-    protected $currentMonthT;
-    protected $currentMonthNumberT;
-    protected $currentMonthFullNameT;
-    protected $prevYearT;
-    protected $prevMonthT;
-    protected $prevMonthNumberT;
-    protected $prevMonthFullNameT;
-    protected $listMonthT;
+    protected $lastDateV;
+    protected $currentYearV;
+    protected $currentMonthV;
+    protected $currentMonthNumberV;
+    protected $currentMonthFullNameV;
+    protected $prevYearV;
+    protected $prevMonthV;
+    protected $prevMonthNumberV;
+    protected $prevMonthFullNameV;
+    protected $listMonthV;
+    protected $locations;
 
 
     public function __construct(info_traffic $info_traffic, violation $violation)
@@ -75,18 +76,19 @@ class InfoTrafficController extends Controller
         $this->listMonth = $info_traffic->listMonth($this->currentYear);
 
         // Violation
-        $this->lastDateT = $violation->queryLastDate();
-        $this->currentYearT = $violation->getCurrentTime('year', $this->lastDateT);
-        $this->currentMonthNumberT = $violation->getCurrentTime('monthnumber', $this->lastDateT);
-        $this->currentMonthFullNameT = $violation->getCurrentTime('monthfullname', $this->lastDateT);
-        $this->currentMonthT = $violation->getCurrentTime('month', $this->lastDateT);
+        $this->lastDateV = $violation->queryLastDate();
+        $this->currentYearV = $violation->getCurrentTime('year', $this->lastDateV);
+        $this->currentMonthNumberV = $violation->getCurrentTime('monthnumber', $this->lastDateV);
+        $this->currentMonthFullNameV = $violation->getCurrentTime('monthfullname', $this->lastDateV);
+        $this->currentMonthV = $violation->getCurrentTime('month', $this->lastDateV);
 
-        $this->prevYearT = $violation->getPrevTime('year', $this->lastDateT);
-        $this->prevMonthNumberT = $violation->getPrevTime('monthnumber', $this->lastDateT);
-        $this->prevMonthFullNameT = $violation->getPrevTime('monthfullname', $this->lastDateT);
-        $this->prevMonthT = $violation->getPrevTime('month', $this->lastDateT);
+        $this->prevYearV = $violation->getPrevTime('year', $this->lastDateV);
+        $this->prevMonthNumberV = $violation->getPrevTime('monthnumber', $this->lastDateV);
+        $this->prevMonthFullNameV = $violation->getPrevTime('monthfullname', $this->lastDateV);
+        $this->prevMonthV = $violation->getPrevTime('month', $this->lastDateV);
 
-        $this->listMonthT = $violation->listMonth($this->currentYearT);
+        $this->listMonthV = $violation->listMonth($this->currentYearV);
+        $this->locations = $violation->getLocations();
     }
 
 
@@ -506,31 +508,24 @@ class InfoTrafficController extends Controller
         ]);
     }
 
-    public function Traffic(GateToll $chart, KomposisiGerbang $chart1, KomposisiGolongan $chart2, PerbandinganGerbang $chart3, PerbandinganGolongan $chart4)
+    public function Traffic(Request $request, GateToll $chart)
     {
-        // @dd($this->currentMonthNumberT);
+        // dd($request->query());
         return view('frontend.pages.about-us.Traffic', [
             // section 3
-            'title' => 'On Ramp Boulevart',
-            "currentDate" => $this->lastDateT->date,
-            'currentYear' => $this->currentYearT,
-            'currentMonthNumber' => $this->currentMonthNumberT,
-            'currentMonthFullName' => $this->currentMonthFullNameT,
-            'currentMonth' => $this->currentMonthT,
-            'prevYear' => $this->prevYearT,
-            'prevMonthNumber' => $this->prevMonthNumberT,
-            'prevMonthFullName' => $this->prevMonthFullNameT,
-            'prevMonth' => $this->prevMonthT,
-            'graph' => $chart->build($this->currentYearT, $this->currentMonthNumberT),
-            // 'chartTitle4' => 'Komposisi Gerbang',
+            'title' => $request->query('location') ?? 'On Ramp Boulevart',
+            'locations' => $this->locations,
+            "currentDate" => $this->lastDateV->date,
+            'currentYear' => $this->currentYearV,
+            'currentMonthNumber' => $this->currentMonthNumberV,
+            'currentMonthFullName' => $this->currentMonthFullNameV,
+            'currentMonth' => $this->currentMonthV,
+            'prevYear' => $this->prevYearV,
+            'prevMonthNumber' => $this->prevMonthNumberV,
+            'prevMonthFullName' => $this->prevMonthFullNameV,
+            'prevMonth' => $this->prevMonthV,
+            'graph' => $chart->build($request->query('start'),$request->query('end'),$request->query('location')),
             'chart' => $chart,
-            // 'graph5' => $chart2->build($this->currentYear, $this->currentMonthNumber),
-            // 'chartTitle5' => 'Komposisi Golongan',
-            // 'chart5' => $chart2,
-            // 'chart7' => $chart3->build($this->currentYear, $this->currentMonthNumber),
-            // 'chartTitle7' => 'Perbandingan Gerbang',
-            // 'chart8' => $chart4->build($this->currentYear, $this->currentMonthNumber),
-            // 'chartTitle8' => 'Perbandingan Gerbang',
         ]);
     }
 

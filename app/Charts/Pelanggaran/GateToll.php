@@ -19,45 +19,26 @@ class GateToll
     // tambahkan properti untuk memberi nilai default tahun, bulan dan perusahaan
 
     // query dan perhitungan data total untuk disajikan ke grafik
-    protected function getGraphData($switch = 'curr', $year, $month, $lokasi = 'On Ramp Boulevart')
-    {
-        if ($switch == 'curr') {
-            $graph = DB::table('table_counting')
-                ->select(DB::raw('lokasi, `date`, SUM(total) as total','date(date) as day'))
-                ->where('lokasi', $lokasi)
-                ->whereYear('date', $year)
-                ->whereMonth('date', $month)
-                ->groupBy('date', 'lokasi')
-                ->get()
-                ->toArray();
-                // @dd($graph);
-            $a = array();
+    protected function getGraphData($start, $end, $lokasi = 'On Ramp Boulevart')
+    {   
+        $start_date = $start ?? date('Y-m-d');
+        $end_date = $end ?? date('Y-m-d');
+        $graph = DB::table('table_counting')
+            ->select(DB::raw('lokasi, SUM(Mobil) as mobil, SUM(Bus_Truk) as bus_truk, `date`, SUM(total) as total','date(date) as day'))
+            ->whereBetween('date',   [$start_date, $end_date])  
+            ->where('lokasi', $lokasi)
+            ->groupBy('date', 'lokasi')
+            ->get()
+            ->toArray();
+            $mobil = array();
+            $bus_truk = array();
             foreach ($graph as $key => $value) {
-                $data = $graph[$key]->total;
-                array_push($a, $data);
+                $mb = $graph[$key]->mobil;
+                $bt = $graph[$key]->bus_truk;
+                array_push($mobil, $mb);
+                array_push($bus_truk, $bt);
             }
-            return array_map('intval', $a);
-        } elseif ($switch == 'prev') {
-            $date = DB::table('table_counting')
-                ->where('lokasi', $lokasi)
-                ->whereYear('date', $year)
-                ->whereMonth('date', $month)
-                ->select(DB::raw('date(date) as day'))
-                ->groupBy('date')
-                ->get()
-                ->last();
-                $countDay = date('d', strtotime($date->day));
-            $a = array();
-            for ($day = 1; $day <= ($countDay); $day++) {
-                $graph = DB::table('table_counting')
-                    ->where('lokasi', $lokasi)
-                    ->whereDate('date', date('Y-m-d', strtotime($year . '-' . $month . '-' . $day . ' -364 days')))
-                    ->sum('total');
-                array_push($a, $graph);
-            }
-
-            return array_map('intval', $a);
-        }
+            return [$mobil, $bus_truk];
     }
 
     // perhitungan data lhr total
@@ -113,12 +94,13 @@ class GateToll
        
     }
 
-    public function getDay ($year, $month, $lokasi = 'On Ramp Boulevart'){
+    public function getDay ($start, $end, $lokasi = 'On Ramp Boulevart'){
+        $start_date = $start ?? date('Y-m-d');
+        $end_date = $end ?? date('Y-m-d');
          $graph = DB::table('table_counting')
          ->select(DB::raw('lokasi, `date`, SUM(total) as total','date(date) as day'))
          ->where('lokasi', $lokasi)
-         ->whereYear('date', $year)
-         ->whereMonth('date', $month)
+         ->whereBetween('date',  [$start_date , $end_date]) 
          ->groupBy('date', 'lokasi')
          ->get()
          ->toArray();
@@ -131,19 +113,18 @@ class GateToll
         return $a;
     }
     // SETTER
-    public function build($year, $month): \ArielMejiaDev\LarapexCharts\BarChart
+    public function build($start, $end, $lokasi = 'On Ramp Boulevart'): \ArielMejiaDev\LarapexCharts\BarChart
     {
         $lineChart = $this->chart->BarChart();
-        // @dd($this->getDay($year, $month, 'On Ramp Boulevart'));
+        // @dd(array($this->getGraphData($start,$end, $lokasi)[0]->mobil));
         // @dd($this->getGraphData('curr', $year, $month, 'On Ramp Boulevart'));
         return $lineChart
-            ->addData("Mobil", $this->getGraphData('curr', $year, $month, 'On Ramp Boulevart'))
+            ->addData("Mobil", $this->getGraphData($start,$end, $lokasi)[0])
             ->setGrid()
             ->setHeight(400)
-            ->addData("Bus dan Truk", $this->getGraphData('curr', $year, $month, 'On Ramp Boulevart'))
+            ->addData("Bus dan Truk", $this->getGraphData($start,$end, $lokasi)[1])
             ->setFontFamily('poppins')
             ->setColors(['#ED1A24', '#25507D'])
-            ->setMarkers(['#ED1A24', '#25507D'], 7, 10)
-            ->setXAxis($this->getDay($year, $month, 'On Ramp Boulevart'));
+            ->setXAxis($this->getDay($start,$end, $lokasi));
     }
 }
