@@ -24,6 +24,16 @@ class violation extends Model
         return $date;
     }
 
+    public static function getLocations()
+    {
+        $date = DB::table('table_counting')
+        ->select(DB::raw('lokasi'))
+        ->distinct()
+        ->get('lokasi')
+        ->toArray();
+        return $date;
+    }
+
     public static function listMonth($year)
     {
         return DB::table('table_counting')
@@ -78,7 +88,7 @@ class violation extends Model
             ->last();
     }
 
-    public static function lastDate($year, $month, $company = 'MMN')
+    public static function lastDate($year, $month, $lokasi = 'On Ramp Boulevart')
     {
         return DB::table('table_counting')
         // ->where('company', $company)
