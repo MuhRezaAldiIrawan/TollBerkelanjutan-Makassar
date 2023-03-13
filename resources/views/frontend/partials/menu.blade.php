@@ -77,12 +77,30 @@
             <span data-i18n="Dashboard">CCTV</span>
         </a>
     </li>
-    <li class="nav-item">
-        <a class=" nav-link d-flex align-items-center" href="/Traffic">
+    <li class="dropdown nav-item" data-menu="dropdown">
+        <a class="dropdown-toggle nav-link d-flex align-items-center" href="javascript:;" data-toggle="dropdown">
             <i class="ft-user"></i>
             <span data-i18n="Dashboard">Traffic</span>
         </a>
+        <ul class="dropdown-menu">
+            <li data-menu="">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('Traffic') }}" data-toggle="dropdown">
+                    <span data-i18n="Dashboard 2">Traffic Harian</span>
+                </a>
+            </li>
+            <li data-menu="">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('TrafficBulanan') }}" data-toggle="dropdown">
+                    <span data-i18n="Dashboard 2">Traffic Bulanan</span>
+                </a>
+            </li>
+            <li data-menu="">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('jtse-bulanan') }}" data-toggle="dropdown">
+                    <span data-i18n="Dashboard 2">Traffic Tahunan</span>
+                </a>
+            </li>
+        </ul>
     </li>
+           
 </ul>
 
 <!--     
