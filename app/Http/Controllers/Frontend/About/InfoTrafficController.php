@@ -27,6 +27,7 @@ use App\Charts\Jtse\PerbandinganGerbang as JtsePerbandinganGerbang;
 use App\Charts\Jtse\PerbandinganGolongan as JtsePerbandinganGolongan;
 use App\Charts\Jtse\LaluLintasHarianGerbang as JtseLaluLintasHarianGerbang;
 use App\Charts\Pelanggaran\GateToll;
+use App\Charts\Pelanggaran\GateTollBulanan;
 
 class InfoTrafficController extends Controller
 {
@@ -525,6 +526,26 @@ class InfoTrafficController extends Controller
             'prevMonthFullName' => $this->prevMonthFullNameV,
             'prevMonth' => $this->prevMonthV,
             'graph' => $chart->build($request->query('start'),$request->query('end'),$request->query('location')),
+            'chart' => $chart,
+        ]);
+    }
+    public function TrafficBulanan(Request $request, GateTollBulanan $chart)
+    {
+        // dd($request->query());
+        return view('frontend.pages.about-us.TrafficBulanan', [
+            // section 3
+            'title' => $request->query('location') ?? 'On Ramp Boulevart',
+            'locations' => $this->locations,
+            "currentDate" => $this->lastDateV->date,
+            'currentYear' => $this->currentYearV,
+            'currentMonthNumber' => $this->currentMonthNumberV,
+            'currentMonthFullName' => $this->currentMonthFullNameV,
+            'currentMonth' => $this->currentMonthV,
+            'prevYear' => $this->prevYearV,
+            'prevMonthNumber' => $this->prevMonthNumberV,
+            'prevMonthFullName' => $this->prevMonthFullNameV,
+            'prevMonth' => $this->prevMonthV,
+            'graph' => $chart->build($request->query('bulan'),$request->query('location')),
             'chart' => $chart,
         ]);
     }
