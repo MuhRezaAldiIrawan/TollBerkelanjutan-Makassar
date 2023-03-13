@@ -25,26 +25,29 @@ class GateTollBulanan
         // $bulan = date('m');
         // dd($bulan);
         $graph = DB::table('table_counting')
-            ->select(DB::raw('lokasi, SUM(Mobil) as mobil, SUM(Bus_Truk) as bus_truk, `date`, SUM(total) as total','date(date) as day'))
+            ->select(DB::raw('lokasi, DAY(`date`) as day, SUM(Mobil) as mobil, SUM(Bus_Truk) as bus_truk, SUM(total) as total'))
             ->whereMonth('date',  $bulan)  
             ->where('lokasi', $lokasi)
-            ->groupBy('date', 'lokasi')
+            ->groupBy('day', 'lokasi')
             ->get()
             ->toArray();
             // dd($graph); 
             $mobil = array();
             $bus_truk = array();
+            $total = array();
             foreach ($graph as $key => $value) {
                 $mb = $graph[$key]->mobil;
                 $bt = $graph[$key]->bus_truk;
+                $t = $graph[$key]->total;
                 array_push($mobil, $mb);
                 array_push($bus_truk, $bt);
+                array_push($total, $t);
             }
-            return [$mobil, $bus_truk];
+            return [$mobil, $bus_truk, $total];
     }
 
     // perhitungan data lhr total
-    public function getLhrData($year, $day, $lokasi = 'On Ramp Boulevart')
+    public function getLhrData($year, $month, $lokasi = 'On Ramp Boulevart')
     {
         $graph = DB::table('table_counting')
             ->select(DB::raw('lokasi, `date`, SUM(total) as total'))
@@ -95,19 +98,18 @@ class GateTollBulanan
 
        
     }
-
     public function getDay ($bulan, $lokasi = 'On Ramp Boulevart'){
         $bulan = date('m',strtotime($bulan ));
          $graph = DB::table('table_counting')
-         ->select(DB::raw('lokasi, `date`, SUM(total) as total','date(date) as day'))
+         ->select(DB::raw('lokasi, DAY(`date`) as day , SUM(total) as total'))
          ->where('lokasi', $lokasi)
          ->whereMonth('date',  $bulan <= 0 ? 12 : $bulan) 
-         ->groupBy('date', 'lokasi')
+         ->groupBy('day', 'lokasi')
          ->get()
          ->toArray();
         $a = array();
         foreach ($graph as $key => $value) {
-            $data = $graph[$key]->date;
+            $data = $graph[$key]->day;
             array_push($a, $data);
         }
         // @dd($a);
@@ -124,8 +126,9 @@ class GateTollBulanan
             ->setGrid()
             ->setHeight(400)
             ->addData("Bus dan Truk", $this->getGraphData($bulan, $lokasi)[1])
+            ->addData("Total", $this->getGraphData($bulan, $lokasi)[2])
             ->setFontFamily('poppins')
-            ->setColors(['#ED1A24', '#25507D'])
+            ->setColors(['#ED1A24', '#25507D','#10707A'])
             ->setXAxis($this->getDay($bulan, $lokasi));
     }
 }
