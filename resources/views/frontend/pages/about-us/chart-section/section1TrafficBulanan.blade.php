@@ -108,7 +108,7 @@
     {{-- header --}}
     <div class="card-body">
     <h3 class="title-phone"><strong>{{ $title }}</strong></h3>
-    <h6 id="subtitle">Periode {{ $currentMonthFullName }} {{ $currentYear }}</h6><br>
+    <h6 id="subtitle">Periode {{ $currentMonthFullName }} {{ $currentYear}}</h6><br>
     {{-- end header --}}
 
     <div class="row align-items-center">

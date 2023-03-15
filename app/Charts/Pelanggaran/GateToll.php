@@ -19,13 +19,13 @@ class GateToll
     // tambahkan properti untuk memberi nilai default tahun, bulan dan perusahaan
 
     // query dan perhitungan data total untuk disajikan ke grafik
-    protected function getGraphData($start, $end, $lokasi = 'On Ramp Boulevart')
+    protected function getGraphData($tanggal, $lokasi = 'On Ramp Boulevart')
     {   
-        $start_date = $start ?? date('Y-m-d');
-        $end_date = $end ?? date('Y-m-d');
+        $tanggal = $tanggal ?? date('Y-m-d');
+        
         $graph = DB::table('table_counting')
-            ->select(DB::raw('lokasi, SUM(Mobil) as mobil, SUM(Bus_Truk) as bus_truk, `date`, SUM(total) as total','date(date) as day'))
-            ->whereBetween('date',   [$start_date, $end_date])  
+            ->select(DB::raw('lokasi, HOUR(`date`) as hour, SUM(Mobil) as mobil, SUM(Bus_Truk) as bus_truk, SUM(total) as total'))
+            ->whereDate('date',  $tanggal)  
             ->where('lokasi', $lokasi)
             ->groupBy('date', 'lokasi')
             ->get()
@@ -94,19 +94,18 @@ class GateToll
        
     }
 
-    public function getDay ($start, $end, $lokasi = 'On Ramp Boulevart'){
-        $start_date = $start ?? date('Y-m-d');
-        $end_date = $end ?? date('Y-m-d');
+    public function getDay ($tangal, $lokasi = 'On Ramp Boulevart'){
+        $tanggal = $tangal ?? date('Y-m-d');
          $graph = DB::table('table_counting')
-         ->select(DB::raw('lokasi, `date`, SUM(total) as total','date(date) as day'))
+         ->select(DB::raw('lokasi, HOUR(`date`) as hour , SUM(total) as total'))
          ->where('lokasi', $lokasi)
-         ->whereBetween('date',  [$start_date , $end_date]) 
-         ->groupBy('date', 'lokasi')
+         ->whereDate('date',  $tanggal) 
+         ->groupBy('hour', 'lokasi')
          ->get()
          ->toArray();
         $a = array();
         foreach ($graph as $key => $value) {
-            $data = $graph[$key]->date;
+            $data = $graph[$key]->hour;
             array_push($a, $data);
         }
         // @dd($a);
