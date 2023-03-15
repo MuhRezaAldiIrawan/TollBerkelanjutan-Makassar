@@ -512,34 +512,40 @@ class InfoTrafficController extends Controller
     public function Traffic(Request $request, GateToll $chart)
     {
         // dd($request->query());
+        $tanggal = $request->query('tanggal');
+        $tahun = date('Y',strtotime($tanggal));
+        $tanggal = date('d-M',strtotime($tanggal));
         return view('frontend.pages.about-us.Traffic', [
             // section 3
             'title' => $request->query('location') ?? 'On Ramp Boulevart',
             'locations' => $this->locations,
             "currentDate" => $this->lastDateV->date,
-            'currentYear' => $this->currentYearV,
+            'currentYear' => $tahun,
             'currentMonthNumber' => $this->currentMonthNumberV,
-            'currentMonthFullName' => $this->currentMonthFullNameV,
+            'currentMonthFullName' => $tanggal,
             'currentMonth' => $this->currentMonthV,
             'prevYear' => $this->prevYearV,
             'prevMonthNumber' => $this->prevMonthNumberV,
             'prevMonthFullName' => $this->prevMonthFullNameV,
             'prevMonth' => $this->prevMonthV,
-            'graph' => $chart->build($request->query('start'),$request->query('end'),$request->query('location')),
+            'graph' => $chart->build($request->query('tanggal'),$request->query('location')),
             'chart' => $chart,
         ]);
     }
     public function TrafficBulanan(Request $request, GateTollBulanan $chart)
     {
+        $bulan = $request->query('bulan');
+        $tahun = date('Y',strtotime($bulan));
+        $bulan = date('M',strtotime($bulan));
         // dd($request->query());
         return view('frontend.pages.about-us.TrafficBulanan', [
             // section 3
             'title' => $request->query('location') ?? 'On Ramp Boulevart',
             'locations' => $this->locations,
             "currentDate" => $this->lastDateV->date,
-            'currentYear' => $this->currentYearV,
+            'currentYear' => $tahun,
             'currentMonthNumber' => $this->currentMonthNumberV,
-            'currentMonthFullName' => $this->currentMonthFullNameV,
+            'currentMonthFullName' => $bulan,
             'currentMonth' => $this->currentMonthV,
             'prevYear' => $this->prevYearV,
             'prevMonthNumber' => $this->prevMonthNumberV,

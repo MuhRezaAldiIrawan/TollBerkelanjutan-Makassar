@@ -31,16 +31,14 @@
                         </div>
                         <div class="row mt-2">
                             <div class="mb-3 col-md-6">
-                                <label for="lastName" class="form-label">Start Date</label>
-                                <input class="form-control" type="date" name="start" value="{{ request()->query('start') }}" />
+                                <label for="lastName" class="form-label">Date</label>
+                                <input class="form-control" type="date" name="tanggal" value="{{ request()->query('tanggal') }}" />
                             </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="lastName" class="form-label">End Date</label>
-                                <input class="form-control" type="date" name="end" value="{{ request()->query('end') }}" />
+                            <div class="mb-3 col-md-3 mt-3">
+                                <button type="submit" class="btn btn-primary btn-hover ml-2">
+                                    <span class="ft-search"></span>&nbsp; Search
+                                </button>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-hover ml-2">
-                                <span class="ft-search"></span>&nbsp; Search
-                            </button>
                         </div>
                     </form>
                 </div>
