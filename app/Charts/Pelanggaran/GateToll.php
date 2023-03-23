@@ -32,24 +32,28 @@ class GateToll
             ->toArray();
             $mobil = array();
             $bus_truk = array();
+            $total = array();
             foreach ($graph as $key => $value) {
                 $mb = $graph[$key]->mobil;
                 $bt = $graph[$key]->bus_truk;
+                $t = $graph[$key]->total;
                 array_push($mobil, $mb);
                 array_push($bus_truk, $bt);
+                array_push($total, $t);
             }
-            return [$mobil, $bus_truk];
+            return [$mobil, $bus_truk,$total];
     }
 
     // perhitungan data lhr total
-    public function getLhrData($year, $month, $lokasi = 'On Ramp Boulevart')
+    public function getData($tanggal, $lokasi )
     {
+        $tanggal = request()->query('tanggal');
+        $lokasi =  request()->query('location');
         $graph = DB::table('table_counting')
-            ->select(DB::raw('lokasi, `date`, SUM(total) as total'))
+            ->select(DB::raw('lokasi, DAY(`date`) as day, SUM(total) as total'))
             ->where('lokasi', $lokasi)
-            ->whereYear('date', $month <= 0 ? $year - 1 : $year)
-            ->whereMonth('date', $month <= 0 ? 12 : $month)
-            ->groupBy('date', 'lokasi')
+            ->whereDate('date',  $tanggal)  
+            ->groupBy('day', 'lokasi')
             ->get()
             ->toArray();
         $a = array();
@@ -62,37 +66,36 @@ class GateToll
         if ( (count($a)) == 0.0) {
             echo 'Divisor is 0';
         } else {
-            $mean = array_sum($a) / (count($a));
-            return number_format(round($mean), 0, '.', '.');
+            return number_format(round($a[0]));
         }
        
     }
 
-    public function getGrowth($switch, $year, $month, $lokasi = 'On Ramp Boulevart')
-    {
-        $currLhr = $this->getLhrData($year, $month, $lokasi);
+    // public function getGrowth($switch, $year, $month, $lokasi = 'On Ramp Boulevart')
+    // {
+    //     $currLhr = $this->getLhrData($year, $month, $lokasi);
         
-        if ($switch == 'year') {
-            $prevLhr = $this->getLhrData($year - 1, $month, $lokasi);
-        } elseif ($switch == 'month') {
-            if ($month <= 1) {
-                $prevLhr = $this->getLhrData($year - 1, 12, $lokasi);
-            } else {
-                $prevLhr = $this->getLhrData($year, $month - 1, $lokasi);
-            }
-        }
+    //     if ($switch == 'year') {
+    //         $prevLhr = $this->getLhrData($year - 1, $month, $lokasi);
+    //     } elseif ($switch == 'month') {
+    //         if ($month <= 1) {
+    //             $prevLhr = $this->getLhrData($year - 1, 12, $lokasi);
+    //         } else {
+    //             $prevLhr = $this->getLhrData($year, $month - 1, $lokasi);
+    //         }
+    //     }
 
         
 
-        if (  $prevLhr * 100 == 0.0) {
-            echo 'Divisor is 0';
-        } else {
-            $growth = ($currLhr - $prevLhr) / $prevLhr * 100;
-            return number_format($growth, 1, '.', '.');
-        }
+    //     if (  $prevLhr * 100 == 0.0) {
+    //         echo 'Divisor is 0';
+    //     } else {
+    //         $growth = ($currLhr - $prevLhr) / $prevLhr * 100;
+    //         return number_format($growth, 1, '.', '.');
+    //     }
 
        
-    }
+    // }
 
     public function getDay ($tangal, $lokasi = 'On Ramp Boulevart'){
         $tanggal = $tangal ?? date('Y-m-d');
@@ -112,18 +115,19 @@ class GateToll
         return $a;
     }
     // SETTER
-    public function build($start, $end, $lokasi = 'On Ramp Boulevart'): \ArielMejiaDev\LarapexCharts\BarChart
+    public function build($tanggal, $lokasi = 'On Ramp Boulevart'): \ArielMejiaDev\LarapexCharts\BarChart
     {
         $lineChart = $this->chart->BarChart();
         // @dd(array($this->getGraphData($start,$end, $lokasi)[0]->mobil));
         // @dd($this->getGraphData('curr', $year, $month, 'On Ramp Boulevart'));
         return $lineChart
-            ->addData("Mobil", $this->getGraphData($start,$end, $lokasi)[0])
+            ->addData("Mobil", $this->getGraphData($tanggal, $lokasi)[0])
             ->setGrid()
             ->setHeight(400)
-            ->addData("Bus dan Truk", $this->getGraphData($start,$end, $lokasi)[1])
+            ->addData("Bus dan Truk", $this->getGraphData($tanggal, $lokasi)[1])
+            ->addData("Total", $this->getGraphData($tanggal, $lokasi)[2])
             ->setFontFamily('poppins')
-            ->setColors(['#ED1A24', '#25507D'])
-            ->setXAxis($this->getDay($start,$end, $lokasi));
+            ->setColors(['#ED1A24', '#25507D', '#122424'])
+            ->setXAxis($this->getDay($tanggal, $lokasi));
     }
 }

@@ -47,57 +47,61 @@ class GateTollBulanan
     }
 
     // perhitungan data lhr total
-    public function getLhrData($year, $month, $lokasi = 'On Ramp Boulevart')
+    public function getLhrData($tahun, $bulan, $lokasi )
     {
+        $lokasi = request()->query('location');
+        // $bulan = date('m',strtotime($bulan ));
+        // $tahun = date('y',strtotime($bulan));
         $graph = DB::table('table_counting')
-            ->select(DB::raw('lokasi, `date`, SUM(total) as total'))
+            ->select(DB::raw('lokasi, MONTH(`date`)as month, SUM(total) as total'))
             ->where('lokasi', $lokasi)
-            ->whereYear('date', $month <= 0 ? $year - 1 : $year)
-            ->whereMonth('date', $month <= 0 ? 12 : $month)
-            ->groupBy('date', 'lokasi')
+            ->whereYear('date', $bulan <= 0 ? $tahun - 1 : $tahun)
+            ->whereMonth('date', $bulan)
+            ->groupBy('month', 'lokasi')
             ->get()
             ->toArray();
         $a = array();
+        
         foreach ($graph as $key => $value) {
             $data = $graph[$key]->total;
             array_push($a, $data);
         }
-        
+        // dd($lokasi);
 
         if ( (count($a)) == 0.0) {
-            echo 'Divisor is 0';
+            echo '0';
         } else {
-            $mean = array_sum($a) / (count($a));
-            return number_format(round($mean), 0, '.', '.');
+            // $mean = array_sum($a) / (count($a));
+            return number_format(round($a[0]), 0, '.', '.');
         }
        
     }
 
-    public function getGrowth($switch, $year, $month, $lokasi = 'On Ramp Boulevart')
-    {
-        $currLhr = $this->getLhrData($year, $month, $lokasi);
+    // public function getGrowth($switch, $year, $bulan, $lokasi = 'On Ramp Boulevart')
+    // {
+    //     $currLhr = $this->getLhrData($year, $bulan, $lokasi);
         
-        if ($switch == 'year') {
-            $prevLhr = $this->getLhrData($year - 1, $month, $lokasi);
-        } elseif ($switch == 'month') {
-            if ($month <= 1) {
-                $prevLhr = $this->getLhrData($year - 1, 12, $lokasi);
-            } else {
-                $prevLhr = $this->getLhrData($year, $month - 1, $lokasi);
-            }
-        }
+    //     if ($switch == 'year') {
+    //         $prevLhr = $this->getLhrData($year - 1, $bulan, $lokasi);
+    //     } elseif ($switch == 'bulan') {
+    //         if ($bulan <= 1) {
+    //             $prevLhr = $this->getLhrData($year - 1, 12, $lokasi);
+    //         } else {
+    //             $prevLhr = $this->getLhrData($year, $bulan - 1, $lokasi);
+    //         }
+    //     }
 
         
 
-        if (  $prevLhr * 100 == 0.0) {
-            echo 'Divisor is 0';
-        } else {
-            $growth = ($currLhr - $prevLhr) / $prevLhr * 100;
-            return number_format($growth, 1, '.', '.');
-        }
+    //     if (  $prevLhr * 100 == 0.0) {
+    //         echo 'Divisor is 0';
+    //     } else {
+    //         $growth = ($currLhr - $prevLhr) / $prevLhr * 100;
+    //         return number_format($growth, 1, '.', '.');
+    //     }
 
        
-    }
+    // }
     public function getDay ($bulan, $lokasi = 'On Ramp Boulevart'){
         $bulan = date('m',strtotime($bulan ));
          $graph = DB::table('table_counting')
@@ -120,7 +124,7 @@ class GateTollBulanan
     {
         $lineChart = $this->chart->BarChart();
         // @dd(array($this->getGraphData($bulan, $lokasi)[0]->mobil));
-        // @dd($this->getGraphData('curr', $year, $month, 'On Ramp Boulevart'));
+        // @dd($this->getGraphData('curr', $year, $bulan, 'On Ramp Boulevart'));
         return $lineChart
             ->addData("Mobil", $this->getGraphData($bulan, $lokasi)[0])
             ->setGrid()

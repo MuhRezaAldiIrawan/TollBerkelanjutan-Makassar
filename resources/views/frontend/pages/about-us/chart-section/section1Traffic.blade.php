@@ -113,9 +113,16 @@
 
     <div class="row align-items-center">
         {{-- chart --}}
-        <div class="container  align-items-center col-12"
+        <div class="container  align-items-center col-10"
             style="overflow: auto; white-space: nowrap; overflow-y: hidden;">
                     {!! $graph->container() !!}
+            </div>
+            <div class="container  align-items-center col-2">
+                {{-- LHR Terkini --}}
+                <h6>Total</h6>
+                <h1><strong id="lhr-terkini">{{ $chart->getData(date('Y', strtotime($currentYear)), date('m',
+                        strtotime($currentMonthFullName)),$location->lokasi) }}</strong></h1>
+                <br>
             </div>
         </div>
      </div>
