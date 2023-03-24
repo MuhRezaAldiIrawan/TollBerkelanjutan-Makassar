@@ -96,6 +96,25 @@
           
         </ul>
     </li>
+    <li class="dropdown nav-item" data-menu="dropdown">
+        <a class="dropdown-toggle nav-link d-flex align-items-center" href="javascript:;" data-toggle="dropdown">
+            <i class="ft-book"></i>
+            <span data-i18n="Dashboard">Pelanggaran</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li data-menu="">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('Traffic') }}" data-toggle="dropdown">
+                    <span data-i18n="Dashboard 2">Melawan Arus</span>
+                </a>
+            </li>
+            <li data-menu="">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('TrafficBulanan') }}" data-toggle="dropdown">
+                    <span data-i18n="Dashboard 2">Objek Selain Mobil</span>
+                </a>
+            </li>
+          
+        </ul>
+    </li>
            
 </ul>
 
