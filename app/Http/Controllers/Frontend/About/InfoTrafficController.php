@@ -551,6 +551,8 @@ class InfoTrafficController extends Controller
             'prevMonthNumber' => $this->prevMonthNumberV,
             'prevMonthFullName' => $this->prevMonthFullNameV,
             'prevMonth' => $this->prevMonthV,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
             'graph' => $chart->build($request->query('bulan'),$request->query('location')),
             'chart' => $chart,
         ]);

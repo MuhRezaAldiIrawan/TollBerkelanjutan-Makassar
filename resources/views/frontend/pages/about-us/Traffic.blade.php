@@ -42,9 +42,15 @@
                         </div>
                     </form>
                 </div>
-                @if (request()->routeIS('Traffic'))
-                    @include('frontend.pages.about-us.chart-section.section1Traffic')
+               
+                @if ( request()->query('tanggal') == null)
+
+                @else
+                    @if (request()->routeIS('Traffic'))
+                        @include('frontend.pages.about-us.chart-section.section1Traffic')
+                    @endif
                 @endif
+                
             </div>
         </div>
     </div>
