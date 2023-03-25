@@ -28,6 +28,7 @@ use App\Charts\Jtse\PerbandinganGolongan as JtsePerbandinganGolongan;
 use App\Charts\Jtse\LaluLintasHarianGerbang as JtseLaluLintasHarianGerbang;
 use App\Charts\Pelanggaran\GateToll;
 use App\Charts\Pelanggaran\GateTollBulanan;
+use App\Charts\Pelanggaran\Pelanggaran;
 
 class InfoTrafficController extends Controller
 {
@@ -532,12 +533,36 @@ class InfoTrafficController extends Controller
             'chart' => $chart,
         ]);
     }
+    public function pelanggaran(Request $request, Pelanggaran $chart)
+    {
+        $bulan = $request->query('bulan');
+        $tahun = date('Y',strtotime($bulan));
+        $bulan = date('M',strtotime($bulan));
+        return view('frontend.pages.about-us.pelanggaran', [
+            // section 3
+            'title' => $request->query('type'),
+            'locations' => $this->locations,
+            "currentDate" => $this->lastDateV->date,
+            'currentYear' => $tahun,
+            'currentMonthNumber' => $this->currentMonthNumberV,
+            'currentMonthFullName' => $bulan,
+            'currentMonth' => $this->currentMonthV,
+            'prevYear' => $this->prevYearV,
+            'prevMonthNumber' => $this->prevMonthNumberV,
+            'prevMonthFullName' => $this->prevMonthFullNameV,
+            'prevMonth' => $this->prevMonthV,
+            "total" => $chart->getTotal($request->query('bulan'),$request->query('type')),
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'graph' => $chart->build($request->query('bulan'),$request->query('type')),
+            'chart' => $chart,
+        ]);
+    }
     public function TrafficBulanan(Request $request, GateTollBulanan $chart)
     {
         $bulan = $request->query('bulan');
         $tahun = date('Y',strtotime($bulan));
         $bulan = date('M',strtotime($bulan));
-        // dd($request->query());
         return view('frontend.pages.about-us.TrafficBulanan', [
             // section 3
             'title' => $request->query('location') ?? 'On Ramp Boulevart',

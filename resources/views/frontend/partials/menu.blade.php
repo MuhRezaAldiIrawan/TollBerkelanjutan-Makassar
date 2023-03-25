@@ -103,12 +103,12 @@
         </a>
         <ul class="dropdown-menu">
             <li data-menu="">
-                <a class="dropdown-item d-flex align-items-center" href="{{ route('Traffic') }}" data-toggle="dropdown">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('pelanggaran') }}?type=Melawan Arus" data-toggle="dropdown">
                     <span data-i18n="Dashboard 2">Melawan Arus</span>
                 </a>
             </li>
             <li data-menu="">
-                <a class="dropdown-item d-flex align-items-center" href="{{ route('TrafficBulanan') }}" data-toggle="dropdown">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('pelanggaran') }}?type=Ada Orang" data-toggle="dropdown">
                     <span data-i18n="Dashboard 2">Objek Selain Mobil</span>
                 </a>
             </li>
