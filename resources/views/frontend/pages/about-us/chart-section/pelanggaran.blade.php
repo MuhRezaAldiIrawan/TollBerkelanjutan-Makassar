@@ -107,7 +107,11 @@
 <div class="card shadow-sm rounded shadow-sm p-3">
     {{-- header --}}
     <div class="card-body">
+    @if ($title == 'Ada Orang')
+    <h3 class="title-phone"><strong>Objek Selain Mobil</strong></h3>  
+    @else
     <h3 class="title-phone"><strong>{{ $title }}</strong></h3>
+    @endif
     <h6 id="subtitle">Periode {{ $currentMonthFullName }} {{ $currentYear}}</h6><br>
     {{-- end header --}}
 

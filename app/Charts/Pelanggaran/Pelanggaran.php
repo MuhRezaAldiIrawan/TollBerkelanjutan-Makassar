@@ -25,24 +25,25 @@ class Pelanggaran
 
         $graph = DB::table('data_pelanggaran')
             ->select(DB::raw('JENIS_PELANGGARAN, DAY(`WAKTU`) as day'))
-            ->whereMonth('WAKTU', '02')  
+            ->whereMonth('WAKTU', $bulan)  
             ->where('JENIS_PELANGGARAN', $pelanggaran)
             ->count();
 
             return $graph;
+            // dd($graph);
     }
 
-    public function getDataPelanggaran ($bulan, $pelanggaran = 'Melawan Arus'){
+    public function getDataPelanggaran ($bulan, $pelanggaran){
         $bulan = date('m',strtotime($bulan ));
          $graph = DB::table('data_pelanggaran')
          ->select(DB::raw('JENIS_PELANGGARAN, DAY(`WAKTU`) as day, COUNT(`id`) as total'))
          ->where('JENIS_PELANGGARAN', $pelanggaran)
-         ->whereMonth('WAKTU',  '02' <= 0 ? 12 : '02') 
+         ->whereMonth('WAKTU',  $bulan <= 0 ? 12 : $bulan) 
         //  ->whereMonth('WAKTU',  $bulan <= 0 ? 12 : $bulan) 
          ->groupBy('day', 'JENIS_PELANGGARAN', )
          ->get()
          ->toArray();
-
+        
          $day = array();
          $dataCounts = array();
          foreach ($graph as $key => $value) {
@@ -59,7 +60,7 @@ class Pelanggaran
         $lineChart = $this->chart->BarChart();
 
         return $lineChart
-            ->addData("Melawan Arus", $this->getDataPelanggaran($bulan, $pelanggaran)[1])
+            ->addData($pelanggaran, $this->getDataPelanggaran($bulan, $pelanggaran)[1])
             ->setGrid()
             ->setHeight(400)
             ->setFontFamily('poppins')

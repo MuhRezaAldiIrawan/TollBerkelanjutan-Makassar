@@ -21,7 +21,7 @@
                     <form class="card-body  mt-0" method="GET" action="/pelanggaran">
                         @csrf
                         <input hidden type="text" name="type" value="{{ request()->query('type') }}">
-                        <div>
+                        <div hidden>
                             <label for="defaultFormControlInput" class="form-label">Location</label>
                             <select disabled class="custom-select" name="location" value="{{ request()->query('location')}}">
                                 <option value="">Pilih Lokasi Filter data</option>
