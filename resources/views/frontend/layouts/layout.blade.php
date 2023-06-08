@@ -121,7 +121,7 @@
             @include('frontend.partials.menu')
         </div>
     </div>
-    <div class="wrapper">
+    <div class="wrapper" style="overflow-y:auto !important ">
         
         <div class="main-panel mt-0">
             <!-- BEGIN : Main Content-->

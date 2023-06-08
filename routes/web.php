@@ -59,6 +59,7 @@ Route::get('/cctv', [InfoTrafficController::class, 'cctv'])->name('cctv')->middl
 Route::get('/Traffic', [InfoTrafficController::class, 'Traffic'])->name('Traffic')->middleware('auth')->middleware('role:aktif');
 Route::get('/TrafficBulanan', [InfoTrafficController::class, 'TrafficBulanan'])->name('TrafficBulanan')->middleware('auth')->middleware('role:aktif');
 Route::get('/pelanggaran', [InfoTrafficController::class, 'pelanggaran'])->name('pelanggaran')->middleware('auth')->middleware('role:aktif');
+Route::get('/detail-pelanggaran', [InfoTrafficController::class, 'detailPelanggaran'])->name('detail.pelanggaran')->middleware('auth')->middleware('role:aktif');
 // testing 
 Route::get('/test', [InfoTrafficController::class, 'test']);
 

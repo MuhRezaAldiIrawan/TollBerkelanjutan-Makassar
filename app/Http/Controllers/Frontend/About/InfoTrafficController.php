@@ -582,6 +582,14 @@ class InfoTrafficController extends Controller
             'chart' => $chart,
         ]);
     }
+    public function detailpelanggaran()
+    {  $data = DB::table('data_pelanggaran')
+        ->select()
+        ->orderBy('id', 'DESC')->get();
+        // ->toArray();
+        // dd($data);
+        return view('frontend.pages.about-us.detail-pelanggaran')->with('data', $data);
+    }
 
     /**
      * Show the form for creating a new resource.
